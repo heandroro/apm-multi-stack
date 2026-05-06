@@ -165,6 +165,28 @@ skills:
         trigger: spring-specialist
         description: Especialista em Spring Boot, Spring Cloud AWS e Spring Data JPA
 
+    reference_repos:
+      - owner: heandroro
+        repo: spring-boot-4-poc
+        url: https://github.com/heandroro/spring-boot-4-poc
+        purpose: Referência canônica para Spring Boot 4.x + Java 21/25
+        architecture: hexagonal
+        java: "21/25"
+        spring_boot: "4.x"
+        relevant_paths:
+          - path: src/main/java/com/example/poc/web
+            description: Controllers, DTOs record, ProblemDetail
+          - path: src/main/java/com/example/poc/application
+            description: Use cases, serviços com @Transactional
+          - path: src/main/java/com/example/poc/domain
+            description: Modelo de domínio, record, sealed classes
+          - path: src/main/java/com/example/poc/infrastructure
+            description: Repositórios JPA, adapters de infraestrutura
+        mcp_tool: github/get_file_contents
+        mcp_args:
+          owner: heandroro
+          repo: spring-boot-4-poc
+
   # ── Quarkus ───────────────────────────────────────────────────────────────
 
   - name: quarkus-patterns
