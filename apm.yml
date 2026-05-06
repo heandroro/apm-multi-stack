@@ -1,0 +1,249 @@
+# apm.yml — APM Multi-Stack Package Manifest
+# Manifesto do pacote de customização do GitHub Copilot.
+# Lista todos os skills, agents e instructions disponíveis.
+
+version: "1.0"
+
+package:
+  name: apm-multi-stack
+  description: >
+    Pacote de customização do GitHub Copilot com boas práticas, templates e
+    agents especializados para Kotlin, Java, Go e Python.
+  languages:
+    - kotlin
+    - java
+    - go
+    - python
+
+# ─── Configuração global ────────────────────────────────────────────────────
+
+global:
+  copilot_instructions: .github/copilot-instructions.md
+  mcp: .vscode/mcp.json
+
+  instructions:
+    - file: .github/instructions/kotlin.instructions.md
+      applyTo: "**/*.kt"
+      description: Null safety, coroutines, data classes, sealed classes, Spring Boot e Ktor
+
+    - file: .github/instructions/java.instructions.md
+      applyTo: "**/*.java"
+      description: Records, sealed classes, virtual threads, pattern matching, streams, Optional
+
+    - file: .github/instructions/go.instructions.md
+      applyTo: "**/*.go"
+      description: Error handling, interfaces, goroutines, context, gRPC/HTTP
+
+    - file: .github/instructions/python.instructions.md
+      applyTo: "**/*.py"
+      description: Type hints, Pydantic, async, FastAPI e Django idioms
+
+    - file: .github/instructions/boto3.instructions.md
+      applyTo: "**/*.py"
+      description: boto3 (sync) e aioboto3 (async), credential handling
+
+  agents:
+    - file: .github/agents/kotlin-expert.agent.md
+      trigger: kotlin-expert
+      description: Kotlin com Spring Boot, Ktor e Coroutines/Flow
+
+    - file: .github/agents/java-expert.agent.md
+      trigger: java-expert
+      description: Java 11–25, Spring Boot, Quarkus, Micronaut — delega a sub-specialists
+
+    - file: .github/agents/go-expert.agent.md
+      trigger: go-expert
+      description: Go com Gin, Fiber, net/http e gRPC
+
+    - file: .github/agents/python-expert.agent.md
+      trigger: python-expert
+      description: Python com FastAPI, Django, Flask e Pydantic
+
+    - file: .github/agents/multi-stack-expert.agent.md
+      trigger: multi-stack-expert
+      description: Orquestrador multi-linguagem — detecta contexto e delega
+
+# ─── Skills ─────────────────────────────────────────────────────────────────
+
+skills:
+
+  # ── Kotlin ────────────────────────────────────────────────────────────────
+
+  - name: kotlin-patterns
+    skill: .github/skills/kotlin-patterns/SKILL.md
+    description: Spring Boot, Ktor, Coroutines/Flow — boas práticas e templates Kotlin
+
+    instructions:
+      - file: .github/skills/kotlin-patterns/instructions/spring-boot.instructions.md
+        description: Controllers, records DTOs, service layer, observabilidade
+      - file: .github/skills/kotlin-patterns/instructions/ktor.instructions.md
+        description: Rotas, plugins, autenticação e serialização com Ktor
+      - file: .github/skills/kotlin-patterns/instructions/coroutines-flow.instructions.md
+        description: suspend functions, Flow, Channel, structured concurrency
+      - file: .github/skills/kotlin-patterns/instructions/aws-sdk-kotlin.instructions.md
+        description: AWS SDK for Kotlin — S3, SQS, DynamoDB
+
+    prompts:
+      - file: .github/skills/kotlin-patterns/prompts/scaffold-service.prompt.md
+        description: Scaffold de serviço Kotlin (Spring Boot ou Ktor)
+      - file: .github/skills/kotlin-patterns/prompts/review-coroutines.prompt.md
+        description: Revisão de código com Coroutines/Flow
+
+    agents:
+      - file: .github/skills/kotlin-patterns/agents/ktor-specialist.agent.md
+        trigger: ktor-specialist
+        description: Especialista em Ktor — rotas, plugins, testes
+
+    assets:
+      - .github/skills/kotlin-patterns/assets/ktor-route.kt
+      - .github/skills/kotlin-patterns/assets/spring-boot-service.kt
+
+  # ── Java ──────────────────────────────────────────────────────────────────
+
+  - name: java-patterns
+    skill: .github/skills/java-patterns/SKILL.md
+    description: Java 11–25, Micronaut, JUnit 5, Testcontainers e BDD framework-agnostic
+
+    instructions:
+      - file: .github/skills/java-patterns/instructions/java-11.instructions.md
+        description: var, HTTP Client, List.copyOf, Optional
+      - file: .github/skills/java-patterns/instructions/java-17.instructions.md
+        description: Records, sealed classes, pattern matching (preview), text blocks
+      - file: .github/skills/java-patterns/instructions/java-21.instructions.md
+        description: Virtual threads, sequenced collections, pattern matching switch (final)
+      - file: .github/skills/java-patterns/instructions/java-25.instructions.md
+        description: Primitive types in patterns, value classes, module system avanços
+      - file: .github/skills/java-patterns/instructions/micronaut.instructions.md
+        description: AOT, injeção de dependência, HTTP client declarativo, testes
+      - file: .github/skills/java-patterns/instructions/http-clients.instructions.md
+        description: JDK HttpClient, RestClient, WebClient, @HttpExchange, OkHttp
+      - file: .github/skills/java-patterns/instructions/mapstruct.instructions.md
+        description: MapStruct 1.6.3 — mappers, Lombok ordering, @BeanMapping
+      - file: .github/skills/java-patterns/instructions/junit.instructions.md
+        description: JUnit 5 + Mockito + AssertJ framework-agnostic — @Nested, parametrized
+      - file: .github/skills/java-patterns/instructions/testcontainers.instructions.md
+        description: Testcontainers core — @Container, wait strategies, redes, reuso
+      - file: .github/skills/java-patterns/instructions/bdd.instructions.md
+        description: Cucumber 7 + JUnit 5 framework-agnostic — Gherkin, step defs, DataTable
+
+    prompts:
+      - file: .github/skills/java-patterns/prompts/scaffold-service.prompt.md
+        description: Scaffold de serviço Java genérico (framework-agnostic)
+      - file: .github/skills/java-patterns/prompts/migrate-java-version.prompt.md
+        description: Guia de migração entre versões LTS do Java
+      - file: .github/skills/java-patterns/prompts/migrate-spring-boot.prompt.md
+        description: Migração de Spring Boot 2.x para 3.x
+
+  # ── Spring ────────────────────────────────────────────────────────────────
+
+  - name: spring-patterns
+    skill: .github/skills/spring-patterns/SKILL.md
+    description: Spring Boot 3.x/4.x, Spring Cloud AWS 3.x, Spring Data JPA, testes e BDD
+
+    instructions:
+      - file: .github/skills/spring-patterns/instructions/spring-boot.instructions.md
+        description: REST controllers, DTOs com records, service layer, error handler, observabilidade
+      - file: .github/skills/spring-patterns/instructions/spring-data-jpa.instructions.md
+        description: Entidades, auditoria, repositórios, projections, @EntityGraph, paginação
+      - file: .github/skills/spring-patterns/instructions/spring-cloud-aws.instructions.md
+        description: BOM 3.2.1, S3Template, SqsTemplate, SnsTemplate, DynamoDB, Secrets Manager
+      - file: .github/skills/spring-patterns/instructions/testing.instructions.md
+        description: "@WebMvcTest, @DataJpaTest, @RestClientTest, @SpringBootTest, @MockBean"
+      - file: .github/skills/spring-patterns/instructions/testcontainers.instructions.md
+        description: "@ServiceConnection, @DynamicPropertySource, LocalStack, Kafka + Awaitility"
+      - file: .github/skills/spring-patterns/instructions/bdd.instructions.md
+        description: cucumber-spring, @CucumberContextConfiguration, @MockBean, @LocalServerPort
+
+    prompts:
+      - file: .github/skills/spring-patterns/prompts/scaffold-spring-service.prompt.md
+        description: Scaffold completo de serviço Spring Boot (controller, service, repository)
+      - file: .github/skills/spring-patterns/prompts/migrate-spring-boot.prompt.md
+        description: Migração incremental entre versões major do Spring Boot
+
+    agents:
+      - file: .github/skills/spring-patterns/agents/spring-specialist.agent.md
+        trigger: spring-specialist
+        description: Especialista em Spring Boot, Spring Cloud AWS e Spring Data JPA
+
+  # ── Quarkus ───────────────────────────────────────────────────────────────
+
+  - name: quarkus-patterns
+    skill: .github/skills/quarkus-patterns/SKILL.md
+    description: >
+      Quarkus 3.10+, RESTEasy Reactive, Panache, CDI, SmallRye, GraalVM native,
+      Dev Services e testes com @QuarkusTest
+
+    instructions:
+      - file: .github/skills/quarkus-patterns/instructions/quarkus-core.instructions.md
+        description: RESTEasy Reactive, Panache Active Record/Repository, CDI, Mutiny, @ConfigMapping
+      - file: .github/skills/quarkus-patterns/instructions/quarkus-native.instructions.md
+        description: GraalVM native build, @RegisterForReflection, Dockerfile.native, AOT
+      - file: .github/skills/quarkus-patterns/instructions/smallrye.instructions.md
+        description: Fault Tolerance, Health, OpenAPI, Config — SmallRye extensions
+      - file: .github/skills/quarkus-patterns/instructions/quarkus-testing.instructions.md
+        description: "@QuarkusTest, @QuarkusIntegrationTest, Dev Services, Mutiny assertions"
+
+    prompts:
+      - file: .github/skills/quarkus-patterns/prompts/scaffold-quarkus-service.prompt.md
+        description: Scaffold de serviço Quarkus (resource, Panache, CDI service, teste)
+      - file: .github/skills/quarkus-patterns/prompts/migrate-spring-to-quarkus.prompt.md
+        description: Roadmap de migração Spring Boot → Quarkus em 7 fases
+
+    agents:
+      - file: .github/skills/quarkus-patterns/agents/quarkus-specialist.agent.md
+        trigger: quarkus-specialist
+        description: Especialista em Quarkus — RESTEasy, Panache, SmallRye, native image
+
+  # ── Go ────────────────────────────────────────────────────────────────────
+
+  - name: go-patterns
+    skill: .github/skills/go-patterns/SKILL.md
+    description: Go idiomático — Gin, Fiber, net/http, gRPC/protobuf e AWS SDK
+
+    instructions:
+      - file: .github/skills/go-patterns/instructions/gin.instructions.md
+        description: Rotas, middleware, binding, grupos e error handling com Gin
+      - file: .github/skills/go-patterns/instructions/fiber.instructions.md
+        description: Handlers, middleware, configuração e performance com Fiber
+      - file: .github/skills/go-patterns/instructions/grpc-protobuf.instructions.md
+        description: Serviços gRPC, protobuf, interceptors, streaming
+      - file: .github/skills/go-patterns/instructions/aws-sdk-go.instructions.md
+        description: AWS SDK v2 para Go — S3, SQS, DynamoDB, context propagation
+
+    prompts:
+      - file: .github/skills/go-patterns/prompts/scaffold-handler.prompt.md
+        description: Scaffold de handler HTTP (Gin ou Fiber)
+      - file: .github/skills/go-patterns/prompts/define-proto.prompt.md
+        description: Definição de arquivo .proto e geração de stubs gRPC
+
+    agents:
+      - file: .github/skills/go-patterns/agents/grpc-specialist.agent.md
+        trigger: grpc-specialist
+        description: Especialista em gRPC/protobuf com Go
+
+  # ── Python ────────────────────────────────────────────────────────────────
+
+  - name: python-patterns
+    skill: .github/skills/python-patterns/SKILL.md
+    description: FastAPI, Django, Flask + Pydantic, async Python e AWS SDK
+
+    instructions:
+      - file: .github/skills/python-patterns/instructions/fastapi.instructions.md
+        description: Rotas, dependency injection, schemas Pydantic, async handlers
+      - file: .github/skills/python-patterns/instructions/django.instructions.md
+        description: Models, views, serializers DRF, autenticação, migrations
+      - file: .github/skills/python-patterns/instructions/flask-pydantic.instructions.md
+        description: Blueprints, validação com Pydantic, error handlers
+      - file: .github/skills/python-patterns/instructions/aws-sdk-python.instructions.md
+        description: boto3/aioboto3 — S3, SQS, DynamoDB, Secrets Manager
+
+    prompts:
+      - file: .github/skills/python-patterns/prompts/scaffold-endpoint.prompt.md
+        description: Scaffold de endpoint FastAPI ou Django REST
+      - file: .github/skills/python-patterns/prompts/pydantic-model.prompt.md
+        description: Definição de modelo Pydantic com validação e serialização
+
+    agents:
+      - file: .github/skills/python-patterns/agents/fastapi-specialist.agent.md
+        trigger: fastapi-specialist
+        description: Especialista em FastAPI — rotas async, Pydantic, testes com httpx
