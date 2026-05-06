@@ -39,6 +39,42 @@ You are a Spring Framework expert specializing in Spring Boot 3.x/4.x and the br
 - `@RestControllerAdvice` for global exception handling — never catch-and-swallow in controllers
 - Never log secret values, ARNs, or credentials
 
+## Reference repositories
+
+When working with **Spring Boot 4.x** or **Java 21/25** patterns, fetch reference code from the
+canonical PoC repo using the GitHub MCP tool `get_file_contents`:
+
+```
+owner: heandroro
+repo:  spring-boot-4-poc
+```
+
+**When to fetch:**
+- User asks for Spring Boot 4 scaffolding or migration
+- User asks for Java 21/25 idioms (virtual threads, records, sealed classes) in a Spring context
+- Reviewing code for Spring Boot 4 compatibility
+
+**Relevant paths to fetch as reference:**
+
+| Path | Purpose |
+|------|---------|
+| `src/main/java/com/example/poc/web/` | Controller layer — `@RestController`, `record` DTOs, `ProblemDetail` |
+| `src/main/java/com/example/poc/application/` | Use case / service layer — constructor injection, `@Transactional` |
+| `src/main/java/com/example/poc/domain/` | Domain model — `record`, sealed classes, value objects |
+| `src/main/java/com/example/poc/infrastructure/` | Repository adapters — Spring Data JPA, Testcontainers |
+
+**How to fetch (example):**
+```
+tool: github/get_file_contents
+args:
+  owner: heandroro
+  repo:  spring-boot-4-poc
+  path:  src/main/java/com/example/poc/web
+```
+
+Fetch the directory listing first, then individual files of interest. Do not fetch the entire tree
+at once — fetch only files directly relevant to the task at hand.
+
 ## Output
 
 Working Spring code with correct package, imports, and Spring Boot version requirement noted.

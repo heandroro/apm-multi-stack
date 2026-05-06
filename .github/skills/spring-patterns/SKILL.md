@@ -49,3 +49,27 @@ Skill para boas práticas, scaffold e revisão de aplicações Spring Boot e Spr
 ```
 "Busque o template em {owner}/{repo}/path/to/Service.java usando o GitHub MCP"
 ```
+
+### Repositório de referência — Spring Boot 4 + Java 21/25
+
+| Campo | Valor |
+|-------|-------|
+| owner | `heandroro` |
+| repo  | `spring-boot-4-poc` |
+| Arquitetura | Hexagonal (`domain/`, `application/`, `infrastructure/`, `web/`) |
+| Java | 21 / 25 |
+| Spring Boot | 4.x |
+
+**Paths úteis:**
+
+- `src/main/java/com/example/poc/web/` — controllers, DTOs `record`, `ProblemDetail`
+- `src/main/java/com/example/poc/application/` — use cases, serviços com `@Transactional`
+- `src/main/java/com/example/poc/domain/` — modelo de domínio, `record`, sealed classes
+- `src/main/java/com/example/poc/infrastructure/` — repositórios JPA, adapters
+
+**Como buscar:**
+```
+tool: github/get_file_contents
+args: { owner: heandroro, repo: spring-boot-4-poc, path: "src/main/java/com/example/poc/web" }
+```
+
